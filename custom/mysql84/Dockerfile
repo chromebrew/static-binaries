@@ -1,12 +1,13 @@
 # syntax=docker.io/docker/dockerfile:1.16
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG ALPINE_VERSION=3.22
+ARG BUILDARCH=amd64
+ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=custom/mysql84
 ARG PACKAGE_NAME=mysql84
 ARG PACKAGE_VERSION=8.4.5
 
-FROM docker.io/library/alpine:${ALPINE_VERSION} AS build
+FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping
@@ -38,10 +39,10 @@ EOT
 RUN --mount=type=cache,target=/var/cache/apk,id=apk-$BUILDARCH,sharing=locked \
   cd "${PACKAGE_PATH}" && abuild -F undeps && \
   "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/mysql" --help && \
-  file "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/mysql" | grep -q 'statically linked' && \
+  file "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/mysql" | grep -q 'static-pie linked\|statically linked' && \
   strip "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/mysql" -o /usr/local/bin/mysql84 && \
   "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/mysqldump" --help && \
-  file "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/mysqldump" | grep -q 'statically linked' && \
+  file "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/mysqldump" | grep -q 'static-pie linked\|statically linked' && \
   strip "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/mysqldump" -o /usr/local/bin/mysqldump84
 
 # STEP-4: export executable
