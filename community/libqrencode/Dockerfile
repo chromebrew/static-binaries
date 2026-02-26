@@ -1,12 +1,13 @@
 # syntax=docker.io/docker/dockerfile:1.16
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG ALPINE_VERSION=3.22
+ARG BUILDARCH=amd64
+ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=community/libqrencode
 ARG PACKAGE_NAME=libqrencode
 ARG PACKAGE_VERSION=4.1.1
 
-FROM docker.io/library/alpine:${ALPINE_VERSION} AS build
+FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping

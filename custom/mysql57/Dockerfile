@@ -1,12 +1,13 @@
 # syntax=docker.io/docker/dockerfile:1.16
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG ALPINE_VERSION=3.22
+ARG BUILDARCH=amd64
+ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=custom/mysql57
 ARG PACKAGE_NAME=mysql57
 ARG PACKAGE_VERSION=5.7.44
 
-FROM docker.io/library/alpine:${ALPINE_VERSION} AS build
+FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping
