@@ -2,7 +2,7 @@
 # https://docs.docker.com/build/dockerfile/frontend/
 
 ARG BUILDARCH
-ARG ALPINE_VERSION=3.23
+ARG ALPINE_VERSION
 ARG PACKAGE_PATH=main/strace
 ARG PACKAGE_NAME=strace
 ARG PACKAGE_VERSION=6.13

@@ -2,7 +2,7 @@
 # https://docs.docker.com/build/dockerfile/frontend/
 
 ARG BUILDARCH
-ARG ALPINE_VERSION=3.23
+ARG ALPINE_VERSION
 ARG PACKAGE_PATH=main/vim
 ARG PACKAGE_NAME=vim
 ARG PACKAGE_VERSION=9.1.1566

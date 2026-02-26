@@ -3,7 +3,9 @@ name: release
 on:
   push:
     tags: ["v*"]
-
+  workflow_dispatch:
+env:
+  ALPINE_VERSION: 3.23
 jobs:
   build-binaries:
     strategy:
@@ -26,31 +28,32 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist community/fio
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist community/libqrencode
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist community/redis
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/7zip
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/curl
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/htop
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/iperf3
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/iproute2
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/lsof
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/mariadb
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/nano
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/netcat-openbsd
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/nmap
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/pigz
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/postgresql17
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/procps-ng
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/rsync
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/socat
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/strace
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/tcpdump
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/vim
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist main/wget
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist custom/mysql57
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist custom/mysql80
-      - run: BUILDARCH=${{ matrix.arch }} docker build -o=dist custom/mysql84
+      - run: docker pull ${{ matrix.arch }}/alpine:${ALPINE_VERSION}
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist community/fio
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist community/libqrencode
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist community/redis
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/7zip
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/curl
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/htop
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/iperf3
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/iproute2
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/lsof
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/mariadb
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/nano
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/netcat-openbsd
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/nmap
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/pigz
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/postgresql17
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/procps-ng
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/rsync
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/socat
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/strace
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/tcpdump
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/vim
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist main/wget
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist custom/mysql57
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist custom/mysql80
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,)" -o=dist custom/mysql84
 
       - run: |
           for file in dist/*; do

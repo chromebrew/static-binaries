@@ -2,7 +2,7 @@
 # https://docs.docker.com/build/dockerfile/frontend/
 
 ARG BUILDARCH
-ARG ALPINE_VERSION=3.23
+ARG ALPINE_VERSION
 ARG PACKAGE_PATH=main/lsof
 ARG PACKAGE_NAME=lsof
 ARG PACKAGE_VERSION=4.99.4
