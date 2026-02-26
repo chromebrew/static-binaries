@@ -1,17 +1,22 @@
 # syntax=docker.io/docker/dockerfile:1.16
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG ALPINE_VERSION=3.22
+ARG BUILDARCH
+ENV BUILDARCH=${BUILDARCH}
+ARG ALPINE_VERSION
+ENV ALPINE_VERSION=${ALPINE_VERSION}
 ARG PACKAGE_PATH=main/htop
 ARG PACKAGE_NAME=htop
 ARG PACKAGE_VERSION=3.4.1
 
-FROM docker.io/library/alpine:${ALPINE_VERSION} AS build
+FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping
 ARG BUILDARCH
+ENV BUILDARCH=${BUILDARCH}
 ARG ALPINE_VERSION
+ENV ALPINE_VERSION=${ALPINE_VERSION}
 ARG PACKAGE_PATH
 ARG PACKAGE_NAME
 ARG PACKAGE_VERSION
@@ -44,7 +49,7 @@ EOT
 RUN --mount=type=cache,target=/var/cache/apk,id=apk-$BUILDARCH,sharing=locked \
   cd "${PACKAGE_PATH}" && apk del ${EXTRA_DEPS} && abuild -F undeps && \
   "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/htop" --help && \
-  file "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/htop" | grep -q 'statically linked' && \
+  file "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/htop" | grep -q 'static-pie linked\|statically linked' && \
   strip "/src/${PACKAGE_PATH}/pkg/${PACKAGE_NAME}/usr/bin/htop" -o /usr/local/bin/htop
 
 # STEP-4: export executable

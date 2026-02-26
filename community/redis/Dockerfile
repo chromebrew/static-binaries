@@ -2,6 +2,7 @@
 # https://docs.docker.com/build/dockerfile/frontend/
 
 ARG ALPINE_VERSION=3.22
+ENV ALPINE_VERSION=${ALPINE_VERSION}
 ARG PACKAGE_PATH=community/redis
 ARG PACKAGE_NAME=redis
 ARG PACKAGE_VERSION=8.0.4
@@ -11,7 +12,9 @@ FROM docker.io/library/alpine:${ALPINE_VERSION} AS build
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping
 ARG BUILDARCH
+ENV BUILDARCH=${BUILDARCH}
 ARG ALPINE_VERSION
+ENV ALPINE_VERSION=${ALPINE_VERSION}
 ARG PACKAGE_PATH
 ARG PACKAGE_NAME
 ARG PACKAGE_VERSION
