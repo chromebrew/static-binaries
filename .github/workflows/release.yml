@@ -3,52 +3,66 @@ name: release
 on:
   push:
     tags: ["v*"]
-
+  workflow_dispatch:
+env:
+  ALPINE_VERSION: 3.23
 jobs:
   build-binaries:
-    runs-on: ${{ matrix.runner.label }}
     strategy:
+      fail-fast: false
       matrix:
+        arch: ["i386","amd64","arm32v7","arm64"]
         runner:
-          - { arch: amd64, label: ubuntu-24.04 }
-          - { arch: arm64, label: ubuntu-24.04-arm }
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+        exclude:
+          - arch: amd64
+            runner: ubuntu-24.04-arm
+          - arch: i386
+            runner: ubuntu-24.04-arm
+          - arch: arm64
+            runner: ubuntu-24.04
+          - arch: arm32v7
+            runner: ubuntu-24.04
+    runs-on: ${{ matrix.runner }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - run: docker build -o=dist community/fio
-      - run: docker build -o=dist community/libqrencode
-      - run: docker build -o=dist community/redis
-      - run: docker build -o=dist main/7zip
-      - run: docker build -o=dist main/curl
-      - run: docker build -o=dist main/htop
-      - run: docker build -o=dist main/iperf3
-      - run: docker build -o=dist main/iproute2
-      - run: docker build -o=dist main/lsof
-      - run: docker build -o=dist main/mariadb
-      - run: docker build -o=dist main/nano
-      - run: docker build -o=dist main/netcat-openbsd
-      - run: docker build -o=dist main/nmap
-      - run: docker build -o=dist main/pigz
-      - run: docker build -o=dist main/postgresql17
-      - run: docker build -o=dist main/procps-ng
-      - run: docker build -o=dist main/rsync
-      - run: docker build -o=dist main/socat
-      - run: docker build -o=dist main/strace
-      - run: docker build -o=dist main/tcpdump
-      - run: docker build -o=dist main/vim
-      - run: docker build -o=dist main/wget
-      - run: docker build -o=dist custom/mysql57
-      - run: docker build -o=dist custom/mysql80
-      - run: docker build -o=dist custom/mysql84
+      - run: docker pull ${{ matrix.arch }}/alpine:${ALPINE_VERSION}
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist community/fio
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist community/libqrencode
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist community/redis
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/7zip
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/curl
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/htop
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/iperf3
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/iproute2
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/lsof
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/mariadb
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/nano
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/netcat-openbsd
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/nmap
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/pigz
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/postgresql17
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/procps-ng
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/rsync
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/socat
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/strace
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/tcpdump
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/vim
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist main/wget
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist custom/mysql57
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist custom/mysql80
+      - run: BUILDARCH=${{ matrix.arch }} docker build --platform="linux/$(echo ${{ matrix.arch }} | sed 's,arm32v7,arm/v7,')" -o=dist custom/mysql84
 
       - run: |
           for file in dist/*; do
-            mv "$file" "${file}_${GITHUB_REF_NAME}_linux_${{ matrix.runner.arch }}"
+            mv "$file" "${file}_${GITHUB_REF_NAME}_linux_${{ matrix.arch }}"
           done
 
       - uses: actions/upload-artifact@v4
         with:
-          name: static-binaries-artifact-${{ matrix.runner.arch }}
+          name: static-binaries-artifact-${{ matrix.arch }}
           path: dist/*
           retention-days: 1
           if-no-files-found: error
