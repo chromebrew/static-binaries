@@ -29,6 +29,7 @@ build() {
 		-DBUILD_CONFIG=mysql_release \
 		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
 		-DCOMPILATION_COMMENT="Alpine Linux" \
 		-DSYSCONFDIR=/etc/mysql \
 		-DMYSQL_DATADIR=/var/lib/mysql \
