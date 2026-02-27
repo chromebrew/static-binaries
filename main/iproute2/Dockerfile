@@ -1,11 +1,10 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG BUILDARCH=amd64
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=main/iproute2
 ARG PACKAGE_NAME=iproute2
-ARG PACKAGE_VERSION=6.15.0
+ARG PACKAGE_VERSION=6.17.0
 
 FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
@@ -62,6 +61,9 @@ COPY --from=build /usr/local/bin/ss /
 ENTRYPOINT ["/ss"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade iproute2 to 6.17.0
+#   * Upgrade alpine image to 3.23
 # 20250531:
 #   * Upgrade iproute2 to 6.15.0
 #   * Commit APKBUILD to git for reproducible build

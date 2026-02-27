@@ -1,7 +1,6 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG BUILDARCH=amd64
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=main/pigz
 ARG PACKAGE_NAME=pigz
@@ -55,6 +54,8 @@ COPY --from=build /usr/local/bin/pigz /
 ENTRYPOINT ["/pigz"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade alpine image to 3.23
 # 20250531:
 #   * Upgrade alpine image to 3.22
 #   * Commit APKBUILD to git for reproducible build

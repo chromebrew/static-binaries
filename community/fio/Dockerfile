@@ -1,11 +1,10 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG BUILDARCH=amd64
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=community/fio
 ARG PACKAGE_NAME=fio
-ARG PACKAGE_VERSION=3.39
+ARG PACKAGE_VERSION=3.41
 
 FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
@@ -57,6 +56,9 @@ COPY --from=build /usr/local/bin/fio /
 ENTRYPOINT ["/fio"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade fio to 3.41
+#   * Upgrade alpine image to 3.23
 # 20250531:
 #   * Upgrade fio to 3.39
 #   * Commit APKBUILD to git for reproducible build

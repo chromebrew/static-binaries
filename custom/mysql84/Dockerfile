@@ -1,11 +1,10 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG BUILDARCH=amd64
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=custom/mysql84
 ARG PACKAGE_NAME=mysql84
-ARG PACKAGE_VERSION=8.4.5
+ARG PACKAGE_VERSION=8.4.8
 
 FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
@@ -52,6 +51,9 @@ COPY --from=build /usr/local/bin/mysql84 /usr/local/bin/mysqldump84 /
 ENTRYPOINT ["/mysql84"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade MySQL to 8.4.8
+#   * Upgrade alpine image to 3.23
 # 20250531:
 #   * Upgrade alpine image to 3.22
 # 20250530:

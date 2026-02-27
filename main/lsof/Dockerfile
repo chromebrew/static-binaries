@@ -1,11 +1,10 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG BUILDARCH=amd64
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=main/lsof
 ARG PACKAGE_NAME=lsof
-ARG PACKAGE_VERSION=4.99.4
+ARG PACKAGE_VERSION=4.99.5
 
 FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
@@ -54,6 +53,9 @@ COPY --from=build /usr/local/bin/lsof /
 ENTRYPOINT ["/lsof"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade lsof to 4.99.5
+#   * Upgrade alpine image to 3.23
 # 20250531:
 #   * Upgrade alpine image to 3.22
 #   * Commit APKBUILD to git for reproducible build
