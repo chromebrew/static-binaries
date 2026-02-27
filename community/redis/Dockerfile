@@ -1,11 +1,10 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG BUILDARCH=amd64
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=community/redis
 ARG PACKAGE_NAME=redis
-ARG PACKAGE_VERSION=8.0.4
+ARG PACKAGE_VERSION=8.4.2
 
 FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
@@ -66,6 +65,9 @@ COPY --from=build /usr/local/bin/redis-cli /
 ENTRYPOINT ["/redis-cli"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade redis to 8.4.2
+#   * Upgrade alpine image to 3.23
 # 20251015:
 #   * Upgrade redis to 8.0.4
 # 20250531:

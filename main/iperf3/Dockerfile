@@ -1,7 +1,6 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG BUILDARCH=amd64
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=main/iperf3
 ARG PACKAGE_NAME=iperf3
@@ -55,6 +54,8 @@ COPY --from=build /usr/local/bin/iperf3 /
 ENTRYPOINT ["/iperf3"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade alpine image to 3.23
 # 20251015:
 #   * Upgrade iperf3 to 3.19.1
 # 20250531:

@@ -1,11 +1,10 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG BUILDARCH=amd64
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=main/netcat-openbsd
 ARG PACKAGE_NAME=netcat-openbsd
-ARG PACKAGE_VERSION=1.229-1
+ARG PACKAGE_VERSION=1.234-1
 
 FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
@@ -55,6 +54,9 @@ COPY --from=build /usr/local/bin/nc /
 ENTRYPOINT ["/nc"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade netcat-openbsd to 1.234-1
+#   * Upgrade alpine image to 3.23
 # 20250531:
 #   * Upgrade netcat-openbsd to 1.229-1
 #   * Commit APKBUILD to git for reproducible build

@@ -1,7 +1,6 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG BUILDARCH=amd64
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=custom/mysql57
 ARG PACKAGE_NAME=mysql57
@@ -52,6 +51,8 @@ COPY --from=build /usr/local/bin/mysql57 /usr/local/bin/mysqldump57 /
 ENTRYPOINT ["/mysql57"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade alpine image to 3.23
 # 20250531:
 #   * Upgrade alpine image to 3.22
 # 20250530:

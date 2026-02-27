@@ -1,7 +1,6 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-ARG BUILDARCH=amd64
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=main/htop
 ARG PACKAGE_NAME=htop
@@ -55,6 +54,8 @@ COPY --from=build /usr/local/bin/htop /
 ENTRYPOINT ["/htop"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade alpine image to 3.23
 # 20250531:
 #   * Upgrade htop to 3.4.1
 #   * Commit APKBUILD to git for reproducible build

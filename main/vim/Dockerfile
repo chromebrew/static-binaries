@@ -1,11 +1,14 @@
-# syntax=docker.io/docker/dockerfile:1.16
+# syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
+<<<<<<< HEAD
 ARG BUILDARCH=amd64
+=======
+>>>>>>> 9903b89 (UPG: Dockerfile for alpine 3.23)
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=main/vim
 ARG PACKAGE_NAME=vim
-ARG PACKAGE_VERSION=9.1.1566
+ARG PACKAGE_VERSION=9.1.2132
 
 FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
 
@@ -63,6 +66,9 @@ COPY --from=build /usr/local/bin/vim /usr/local/bin/xxd /
 ENTRYPOINT ["/vim"]
 
 ########## CHANGES ##########
+# 20260227:
+#   * Upgrade vim to 9.1.2132
+#   * Upgrade alpine image to 3.23
 # 20251015:
 #   * Upgrade vim to 9.1.1566
 # 20250531:
