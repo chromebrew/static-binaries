@@ -50,7 +50,7 @@ declare -a BINARIES=(
 )
 
 ########## main ##########
-echo "Last build: \`$(date --utc +%FT%TZ)\` with Alpine Linux \`v$ALPINE_VERSION\`\n"
+echo "Last build: \`$(date --utc +%FT%TZ)\` with Alpine Linux \`v$ALPINE_VERSION\`"
 echo "| binary | package | version | download |"
 echo "| ------ | ------- | ------- | -------- |"
 
