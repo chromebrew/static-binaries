@@ -58,8 +58,10 @@ jobs:
       - run: docker build --build-arg BUILDARCH="${BUILDARCH}" --build-arg ALPINE_VERSION="${ALPINE_VERSION}" -o=dist main/tcpdump
       - run: docker build --build-arg BUILDARCH="${BUILDARCH}" --build-arg ALPINE_VERSION="${ALPINE_VERSION}" -o=dist main/vim
       - run: docker build --build-arg BUILDARCH="${BUILDARCH}" --build-arg ALPINE_VERSION="${ALPINE_VERSION}" -o=dist main/wget
-      # - run: docker build --build-arg BUILDARCH="${BUILDARCH}" --build-arg ALPINE_VERSION="${ALPINE_VERSION}" -o=dist custom/mysql80
-      # - run: docker build --build-arg BUILDARCH="${BUILDARCH}" --build-arg ALPINE_VERSION="${ALPINE_VERSION}" -o=dist custom/mysql84
+      - run: |
+          [[ ${{ matrix.arch }} =~ ^(i386|arm32v7)$ ]] || docker build --build-arg BUILDARCH="${BUILDARCH}" --build-arg ALPINE_VERSION="${ALPINE_VERSION}" -o=dist custom/mysql80
+      - run: |
+          [[ ${{ matrix.arch }} =~ ^(i386|arm32v7)$ ]] || docker build --build-arg BUILDARCH="${BUILDARCH}" --build-arg ALPINE_VERSION="${ALPINE_VERSION}" -o=dist custom/mysql84
 
       - run: |
           for file in dist/*; do
