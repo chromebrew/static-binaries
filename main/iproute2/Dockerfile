@@ -6,7 +6,7 @@ ARG PACKAGE_PATH=main/iproute2
 ARG PACKAGE_NAME=iproute2
 ARG PACKAGE_VERSION=6.17.0
 
-FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
+FROM ${TARGETARCH}/alpine:${ALPINE_VERSION} AS build
 
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping
