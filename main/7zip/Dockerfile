@@ -6,7 +6,7 @@ ARG PACKAGE_PATH=main/7zip
 ARG PACKAGE_NAME=7zip
 ARG PACKAGE_VERSION=25.01
 
-FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
+FROM ${TARGETARCH}/alpine:${ALPINE_VERSION} AS build
 
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping

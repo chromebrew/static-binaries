@@ -6,7 +6,7 @@ ARG PACKAGE_PATH=main/rsync
 ARG PACKAGE_NAME=rsync
 ARG PACKAGE_VERSION=3.4.1
 
-FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
+FROM ${TARGETARCH}/alpine:${ALPINE_VERSION} AS build
 
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping

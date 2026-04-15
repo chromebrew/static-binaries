@@ -6,7 +6,7 @@ ARG PACKAGE_PATH=custom/mysql80
 ARG PACKAGE_NAME=mysql80
 ARG PACKAGE_VERSION=8.0.45
 
-FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
+FROM ${TARGETARCH}/alpine:${ALPINE_VERSION} AS build
 
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping

@@ -1,16 +1,12 @@
 # syntax=docker.io/docker/dockerfile:1.21
 # https://docs.docker.com/build/dockerfile/frontend/
 
-<<<<<<< HEAD
-ARG BUILDARCH=amd64
-=======
->>>>>>> 9903b89 (UPG: Dockerfile for alpine 3.23)
 ARG ALPINE_VERSION=3.23
 ARG PACKAGE_PATH=main/vim
 ARG PACKAGE_NAME=vim
 ARG PACKAGE_VERSION=9.1.2132
 
-FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
+FROM ${TARGETARCH}/alpine:${ALPINE_VERSION} AS build
 
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping

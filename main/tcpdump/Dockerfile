@@ -6,7 +6,7 @@ ARG PACKAGE_PATH=main/tcpdump
 ARG PACKAGE_NAME=tcpdump
 ARG PACKAGE_VERSION=4.99.5
 
-FROM ${BUILDARCH}/alpine:${ALPINE_VERSION} AS build
+FROM ${TARGETARCH}/alpine:${ALPINE_VERSION} AS build
 
 # redeclare in build stage to inherit arguments from global scope
 # https://docs.docker.com/build/building/variables/#scoping
